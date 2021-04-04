@@ -1,19 +1,25 @@
-import { promsy } from '../src/app'
+import { setAlaramForSeconds } from '../src/app'
 
 describe('Calculator', () => {
-    test('gets a value, if conditions favor', () => {
+    beforeEach(() => {
         jest.useFakeTimers()
+    })
 
-        expect.assertions(3)
+    afterEach(() => {
+        jest.useRealTimers()
+    })
 
-        const pendingPromise = promsy(true).then(res => {
-            expect(res).toBe('something')
+    it('should fire alarm and return message after seconds', () => {
+        const message = "Wake Up Dude!"
+        const seconds = 7
+
+        const pendingPromise = setAlaramForSeconds(seconds, message).then(res => {
+            expect(res).toBe(message)
             expect(setTimeout).toHaveBeenCalledTimes(1);
-            expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 2000);
+            expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), seconds * 1000);
         })
 
         jest.runAllTimers()
-
         
         return pendingPromise
     })

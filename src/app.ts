@@ -1,7 +1,5 @@
-
-
-export const promsy = (passes:any) => new Promise(resolve => {
+export const setAlaramForSeconds = (seconds:number, message:string) => new Promise(resolve => {
     setTimeout(() => {
-        resolve('something')
-    }, 2000)
+        resolve(message)
+    }, seconds * 1000)
 })
